@@ -3,6 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Xamarin.Neo4j.App">
     <Application.Resources>
+        <Color x:Key="Glitter">#e4ecf5</Color>
+        <Color x:Key="EbonyClay">#31333b</Color>
+
         <OnPlatform x:TypeArguments="x:String" x:Key="FontAwesomeBrands">
             <On Platform="Android" Value="FontAwesome5Brands.ttf#Regular" />
             <On Platform="iOS" Value="FontAwesome5Brands-Regular" />
@@ -17,5 +20,18 @@
             <On Platform="Android" Value="FontAwesome5Regular.ttf#Regular" />
             <On Platform="iOS" Value="FontAwesome5Free-Regular" />
         </OnPlatform>
+
+        <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+            <Setter Property="BackgroundColor" Value="{StaticResource Glitter}" />
+        </Style>
+
+        <Style TargetType="ListView">
+            <Setter Property="BackgroundColor" Value="Transparent" />
+        </Style>
+
+        <Style TargetType="NavigationPage">
+            <Setter Property="BarBackgroundColor" Value="{StaticResource EbonyClay}"/>
+            <Setter Property="BarTextColor" Value="White" />
+        </Style>
     </Application.Resources>
 </Application>

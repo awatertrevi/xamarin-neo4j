@@ -6,22 +6,18 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Neo4j.ViewModels;
 
 namespace Xamarin.Neo4j.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class RootPage : TabbedPage
+    public partial class QueriesPage : ContentPage
     {
-        public RootPage()
+        public QueriesPage()
         {
             InitializeComponent();
-        }
 
-        protected override void OnCurrentPageChanged()
-        {
-            Title = CurrentPage.Title;
-
-            base.OnCurrentPageChanged();
+            BindingContext = new QueriesViewModel(Navigation);
         }
     }
 }

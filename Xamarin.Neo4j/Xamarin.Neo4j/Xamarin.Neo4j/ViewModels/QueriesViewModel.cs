@@ -1,5 +1,5 @@
 //
-// RootViewModel.cs
+// QueriesViewModel.cs
 //
 // Trevi Awater
 // 13-11-2021
@@ -11,21 +11,17 @@ using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Annotations;
-using Xamarin.Neo4j.Pages;
 
 namespace Xamarin.Neo4j.ViewModels
 {
-    public class RootViewModel : ViewModelBase, INotifyPropertyChanged
+    public class QueriesViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        public RootViewModel(INavigation navigation) : base(navigation)
-        {
-            Commands.Add("AddConnection", new Command(() =>
-            {
-                Navigation.PushAsync(new AddConnectionPage());
-            }));
-        }
-
         public event PropertyChangedEventHandler PropertyChanged;
+
+        public QueriesViewModel(INavigation navigation) : base(navigation)
+        {
+
+        }
 
         [NotifyPropertyChangedInvocator]
         protected virtual void OnPropertyChanged([CallerMemberName] string propertyName = null)

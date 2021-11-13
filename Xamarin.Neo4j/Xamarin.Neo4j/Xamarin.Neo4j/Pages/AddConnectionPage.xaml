@@ -2,6 +2,7 @@
 
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             Title="Add Connection"
              x:Class="Xamarin.Neo4j.Pages.AddConnectionPage">
     <ContentPage.Content>
        <ScrollView>
@@ -15,6 +16,33 @@
                    <Label Text="Port:" FontAttributes="Bold" FontSize="Small"  />
                    <Entry Text="{Binding Port}" Keyboard="Numeric" />
                </StackLayout>
+
+               <StackLayout Spacing="4">
+                   <Label Text="Encryption:" FontAttributes="Bold" FontSize="Small"  />
+                   <Switch IsToggled="{Binding Encryption}" />
+               </StackLayout>
+
+               <StackLayout Spacing="4">
+                   <Label Text="Username:" FontAttributes="Bold" FontSize="Small"  />
+                   <Entry Text="{Binding Username}" Keyboard="Numeric" />
+               </StackLayout>
+
+               <StackLayout Spacing="4">
+                   <Label Text="Password:" FontAttributes="Bold" FontSize="Small"  />
+                   <Entry Text="{Binding Password}" IsPassword="True" />
+               </StackLayout>
+
+               <Grid>
+                   <Grid.ColumnDefinitions>
+                       <ColumnDefinition Width="1*" />
+                       <ColumnDefinition Width="1*" />
+                       <ColumnDefinition Width="1*" />
+                   </Grid.ColumnDefinitions>
+
+                   <Button Grid.Column="0" Text="Connect" Command="{Binding Commands[Connect]}" />
+                   <Button Grid.Column="1" Text="Test" Command="{Binding Commands[Test]}" />
+                   <Button Grid.Column="2" Text="Save" Command="{Binding Commands[Save]}" />
+               </Grid>
            </StackLayout>
        </ScrollView>
     </ContentPage.Content>

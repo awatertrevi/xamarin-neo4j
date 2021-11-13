@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:Xamarin.Neo4j.Fonts;assembly=Xamarin.Neo4j"
+             x:Class="Xamarin.Neo4j.Pages.SessionPage">
+    <NavigationPage.TitleView>
+        <StackLayout Spacing="0">
+            <Label TextColor="White" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="FocusDatabasePicker" />
+                </Label.GestureRecognizers>
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="{Binding CurrentDatabase.DisplayName}" />
+                        <Span Text=" " />
+                        <Span Text="{x:Static fonts:FontAwesomeSolid.CaretDown}" FontFamily="{StaticResource FontAwesomeSolid}" />
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+
+            <Picker x:Name="databasePicker" ItemsSource="{Binding AvailableDatabases}" ItemDisplayBinding="{Binding DisplayName}" SelectedItem="{Binding CurrentDatabase}" IsVisible="False" />
+        </StackLayout>
+    </NavigationPage.TitleView>
+
+    <ContentPage.Content>
+        <StackLayout>
+            <Editor Text="{Binding Query}" AutoSize="TextChanges" />
+            <Button Text="Run Query" Command="{Binding Commands[RunQuery]}" />
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
