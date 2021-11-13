@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xamarin.Neo4j.Pages.AddConnectionPage">
+    <ContentPage.Content>
+       <ScrollView>
+           <StackLayout Padding="24" Spacing="12">
+               <StackLayout Spacing="4">
+                   <Label Text="Host:" FontAttributes="Bold" FontSize="Small"  />
+                   <Entry Text="{Binding Host}" />
+               </StackLayout>
+
+               <StackLayout Spacing="4">
+                   <Label Text="Port:" FontAttributes="Bold" FontSize="Small"  />
+                   <Entry Text="{Binding Port}" Keyboard="Numeric" />
+               </StackLayout>
+           </StackLayout>
+       </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
