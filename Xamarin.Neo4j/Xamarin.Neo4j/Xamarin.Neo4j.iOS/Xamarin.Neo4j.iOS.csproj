@@ -101,6 +101,24 @@
         <Compile Include="Properties\AssemblyInfo.cs" />
     </ItemGroup>
     <ItemGroup>
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20x20@1x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20x20@2x-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20x20@2x-2.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20x20@2x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-20x20@3x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29x29@1x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29x29@2x-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29x29@2x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-29x29@3x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40x40@2x-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40x40@2x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40x40@3x-1.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-40x40@3x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-60x60@3x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-76x76@1x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-76x76@2x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-83.5@2x.png" />
+        <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-marketing-1024x1024.png" />
         <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
             <Visible>false</Visible>
