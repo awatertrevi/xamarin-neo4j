@@ -25,21 +25,35 @@ namespace Xamarin.Neo4j.Services
 
         public async Task<bool> EstablishConnection(Neo4jConnectionString connectionString)
         {
-            var boltUri = $"bolt://{connectionString.Host}:{connectionString.Port}";
-
-            var driver = GraphDatabase.Driver(boltUri, AuthTokens.Basic(connectionString.Username, connectionString.Password), builder =>
-            {
-                builder.WithEncryptionLevel(connectionString.Encrypted ? EncryptionLevel.Encrypted : EncryptionLevel.None);
-            });
-
-            GraphClient = new BoltGraphClient(driver);
-
             try
             {
+                var boltUri = $"bolt://{connectionString.Host}:{connectionString.Port}";
+
+                var driver = GraphDatabase.Driver(boltUri,
+                    AuthTokens.Basic(connectionString.Username, connectionString.Password),
+                    builder =>
+                    {
+                        builder.WithEncryptionLevel(connectionString.Encrypted
+                            ? EncryptionLevel.Encrypted
+                            : EncryptionLevel.None);
+                    });
+
+                GraphClient = new BoltGraphClient(driver);
+
                 await GraphClient.ConnectAsync();
             }
 
+            catch (ServiceUnavailableException)
+            {
+                return false;
+            }
+
             catch (AuthenticationException)
+            {
+                return false;
+            }
+
+            catch (UriFormatException)
             {
                 return false;
             }

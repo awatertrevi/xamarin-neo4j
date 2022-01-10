@@ -43,8 +43,6 @@ namespace Xamarin.Neo4j.ViewModels
 
             Commands.Add("Test", new Command(async () =>
             {
-                if (!ValidateInput()) return;
-
                 var connectionString = BuildConnectionString();
 
                 var couldConnect = await _neo4jService.EstablishConnection(connectionString);
@@ -54,8 +52,6 @@ namespace Xamarin.Neo4j.ViewModels
 
             Commands.Add("Save", new Command(async () =>
             {
-                if (!ValidateInput()) return;
-
                 var connectionString = BuildConnectionString();
 
                 var namePromptResult = await UserDialogs.Instance.PromptAsync("How do you want to name this connection?", "Save Connection", "Save", "Cancel");
@@ -72,11 +68,15 @@ namespace Xamarin.Neo4j.ViewModels
 
             Commands.Add("Connect", new Command(async () =>
             {
-                if (!ValidateInput()) return;
-
                 var connectionString = BuildConnectionString();
 
-                await Navigation.PushAsync(new SessionPage(connectionString));
+                var couldConnect = await _neo4jService.EstablishConnection(connectionString);
+
+                if (couldConnect)
+                    await Navigation.PushAsync(new SessionPage(connectionString));
+
+                else
+                    await UserDialogs.Instance.AlertAsync( "Connection failed.");
             }));
         }
 
@@ -105,28 +105,6 @@ namespace Xamarin.Neo4j.ViewModels
             };
         }
 
-        private bool ValidateInput()
-        {
-            // Username and Password not checked because username- and passwordless connections are allowed
-
-            var ipRegex = new Regex(@"\b((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)(\.|$)){4}\b");
-            var portRegex = new Regex(@"^([0-9]{1,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$");
-
-            if (!ipRegex.IsMatch(Host))
-            {
-                UserDialogs.Instance.AlertAsync("Incorrect host format");
-                return false;
-            }
-
-            if (!portRegex.IsMatch(Port.ToString()))
-            {
-                UserDialogs.Instance.AlertAsync("Incorrect port format");
-                return false;
-            }
-
-            return true;
-        }
-        
         #region Bindable Properties
 
         public bool Encrypted
