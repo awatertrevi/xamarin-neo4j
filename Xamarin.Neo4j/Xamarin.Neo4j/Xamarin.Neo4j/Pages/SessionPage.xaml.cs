@@ -14,6 +14,8 @@ namespace Xamarin.Neo4j.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SessionPage : ContentPage
     {
+        private SessionViewModel ViewModel => (SessionViewModel) BindingContext;
+
         public SessionPage(Neo4jConnectionString connectionString)
         {
             InitializeComponent();
@@ -24,6 +26,11 @@ namespace Xamarin.Neo4j.Pages
         private void FocusDatabasePicker(object sender, EventArgs e)
         {
             databasePicker.Focus();
+        }
+
+        private void OnExecuteQuery(object sender, EventArgs e)
+        {
+            ViewModel.ExecuteQuery();
         }
     }
 }

@@ -71,14 +71,54 @@ namespace Xamarin.Neo4j.Services
             return databases;
         }
 
-        public async Task ExecuteQuery(string query, string database)
+        public async Task<QueryResult> ExecuteQuery(string query, Neo4jConnectionString connectionString)
         {
-            var session = GraphClient.Driver.AsyncSession(d => d.WithDatabase(database));
-            var cursor = await session.RunAsync(query);
-
-            while (await cursor.FetchAsync())
+            try
             {
+                var session = GraphClient.Driver.AsyncSession(d => d.WithDatabase(connectionString.Database));
+                var cursor = await session.RunAsync(query);
 
+                var nodes = new List<INode>();
+                var relationships = new List<IRelationship>();
+
+                while (await cursor.FetchAsync())
+                {
+                    foreach (var record in  cursor.Current.Values)
+                    {
+                        var value = record.Value;
+
+                        switch (value)
+                        {
+                            case INode _:
+                                nodes.Add(value.As<INode>());
+                                break;
+
+                            case IRelationship _:
+                                relationships.Add(value.As<IRelationship>());
+                                break;
+                        }
+                    }
+                }
+
+                return new QueryResult()
+                {
+                    Success = true,
+                    Query = query,
+                    ConnectionString = connectionString,
+                    Nodes = nodes,
+                    Relationships = relationships
+                };
+            }
+
+            catch (ClientException e)
+            {
+                return new QueryResult()
+                {
+                    Success = false,
+                    Query = query,
+                    ConnectionString = connectionString,
+                    ErrorMessage = e.Message
+                };
             }
         }
     }

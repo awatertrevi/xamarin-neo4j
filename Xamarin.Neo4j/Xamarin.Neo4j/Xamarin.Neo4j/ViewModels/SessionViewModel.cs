@@ -8,13 +8,17 @@
 //
 
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using Acr.UserDialogs;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Annotations;
 using Xamarin.Neo4j.Models;
+using Xamarin.Neo4j.Pages;
 using Xamarin.Neo4j.Services;
 
 namespace Xamarin.Neo4j.ViewModels
@@ -29,18 +33,34 @@ namespace Xamarin.Neo4j.ViewModels
 
         private List<Database> _availableDatabases;
 
+        private ObservableCollection<QueryResult> _queryResults;
+
+        private Neo4jConnectionString _connectionString;
+
         private string _query;
 
         public SessionViewModel(INavigation navigation, Neo4jConnectionString connectionString) : base(navigation)
         {
+            _connectionString = connectionString;
+
             _neo4jService = DependencyService.Resolve<Neo4jService>();
 
-            Commands.Add("RunQuery", new Command(async () =>
-            {
-                _neo4jService.ExecuteQuery(Query, CurrentDatabase.Name);
-            }));
+            QueryResults = new ObservableCollection<QueryResult>();
 
             InitializeConnection(connectionString);
+        }
+
+        public async void ExecuteQuery()
+        {
+            _connectionString.Database = CurrentDatabase.Name;
+
+            var result = await _neo4jService.ExecuteQuery(Query, _connectionString);
+
+            if (result.Success)
+                QueryResults.Add(result);
+
+            else
+                UserDialogs.Instance.Alert(result.ErrorMessage);
         }
 
         private async void InitializeConnection(Neo4jConnectionString connectionString)
@@ -83,6 +103,18 @@ namespace Xamarin.Neo4j.ViewModels
             set
             {
                 _availableDatabases = value;
+
+                OnPropertyChanged();
+            }
+        }
+
+        public ObservableCollection<QueryResult> QueryResults
+        {
+            get => _queryResults;
+
+            set
+            {
+                _queryResults = value;
 
                 OnPropertyChanged();
             }

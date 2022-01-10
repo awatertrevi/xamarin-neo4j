@@ -3,6 +3,7 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonts="clr-namespace:Xamarin.Neo4j.Fonts;assembly=Xamarin.Neo4j"
+             xmlns:controls="clr-namespace:Xamarin.Neo4j.Controls;assembly=Xamarin.Neo4j"
              x:Class="Xamarin.Neo4j.Pages.SessionPage">
     <NavigationPage.TitleView>
         <StackLayout Spacing="0">
@@ -25,8 +26,15 @@
 
     <ContentPage.Content>
         <StackLayout>
-            <Editor Text="{Binding Query}" AutoSize="TextChanges" />
-            <Button Text="Run Query" Command="{Binding Commands[RunQuery]}" />
+            <controls:QueryBuilder ExecuteQuery="OnExecuteQuery" Query="{Binding Query}" />
+
+            <ListView ItemsSource="{Binding QueryResults}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <controls:QueryResultCell />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
