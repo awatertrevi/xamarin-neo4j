@@ -10,6 +10,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using Acr.UserDialogs;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Annotations;
 using Xamarin.Neo4j.Managers;
@@ -40,6 +41,18 @@ namespace Xamarin.Neo4j.ViewModels
 
                 LoadConnectionStrings();
             }));
+
+            Commands.Add("StartSession", new Command(async () =>
+            {
+                if (ConnectionStringManager.ActiveConnectionString == null)
+                {
+                    await UserDialogs.Instance.AlertAsync("Please select a connection before starting a session.");
+
+                    return;
+                }
+
+                await Navigation.PushAsync(new SessionPage(ConnectionStringManager.ActiveConnectionString));
+            }));
         }
 
         [NotifyPropertyChangedInvocator]
@@ -53,6 +66,14 @@ namespace Xamarin.Neo4j.ViewModels
             ConnectionStrings = await ConnectionStringManager.GetConnectionStrings();
         }
 
+        public void SetActiveConnectionString(Neo4jConnectionString connectionString)
+        {
+            ConnectionStringManager.ActiveConnectionString = ConnectionStringManager.ActiveConnectionString?.Id == connectionString.Id ? null : connectionString;
+
+            // HACK: This causes the Converter to re-execute. This can be done much cleaner.
+            LoadConnectionStrings();
+        }
+
         #region Bindable Properties
 
         public IEnumerable<Neo4jConnectionString> ConnectionStrings
@@ -63,7 +84,7 @@ namespace Xamarin.Neo4j.ViewModels
             {
                 _connectionStrings = value;
 
-                OnPropertyChanged();
+                OnPropertyChanged(nameof(ConnectionStrings));
             }
         }
 

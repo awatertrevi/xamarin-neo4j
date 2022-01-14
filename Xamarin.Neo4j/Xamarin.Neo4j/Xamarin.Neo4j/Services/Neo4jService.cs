@@ -87,16 +87,21 @@ namespace Xamarin.Neo4j.Services
 
         public async Task<QueryResult> ExecuteQuery(string query, Neo4jConnectionString connectionString)
         {
+            var results = new Dictionary<string, List<object>>();
+
+            var canDisplayGraph = false;
+
             try
             {
                 var session = GraphClient.Driver.AsyncSession(d => d.WithDatabase(connectionString.Database));
                 var cursor = await session.RunAsync(query);
 
-                var nodes = new List<INode>();
-                var relationships = new List<IRelationship>();
-
                 while (await cursor.FetchAsync())
                 {
+                    foreach (var key in cursor.Current.Keys)
+                        if (results.ContainsKey(key) == false)
+                            results.Add(key, new List<object>());
+
                     foreach (var record in  cursor.Current.Values)
                     {
                         var value = record.Value;
@@ -104,11 +109,16 @@ namespace Xamarin.Neo4j.Services
                         switch (value)
                         {
                             case INode _:
-                                nodes.Add(value.As<INode>());
+                                canDisplayGraph = true;
+                                results[record.Key].Add(value.As<INode>());
                                 break;
 
                             case IRelationship _:
-                                relationships.Add(value.As<IRelationship>());
+                                results[record.Key].Add(value.As<IRelationship>());
+                                break;
+
+                            default:
+                                results[record.Key].Add(value);
                                 break;
                         }
                     }
@@ -116,11 +126,12 @@ namespace Xamarin.Neo4j.Services
 
                 return new QueryResult()
                 {
+                    Id = Guid.NewGuid(),
                     Success = true,
+                    CanDisplayGraph = canDisplayGraph,
                     Query = query,
                     ConnectionString = connectionString,
-                    Nodes = nodes,
-                    Relationships = relationships
+                    Results = results
                 };
             }
 
@@ -128,6 +139,7 @@ namespace Xamarin.Neo4j.Services
             {
                 return new QueryResult()
                 {
+                    Id = Guid.NewGuid(),
                     Success = false,
                     Query = query,
                     ConnectionString = connectionString,

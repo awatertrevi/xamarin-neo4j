@@ -22,6 +22,8 @@ namespace Xamarin.Neo4j.Managers
     {
         private const string ConnectionStringsKey = "connection_strings";
 
+        public static Neo4jConnectionString ActiveConnectionString { get; set; }
+
         public static async Task<List<Neo4jConnectionString>> GetConnectionStrings()
         {
             var json = await SecureStorage.GetAsync(ConnectionStringsKey);

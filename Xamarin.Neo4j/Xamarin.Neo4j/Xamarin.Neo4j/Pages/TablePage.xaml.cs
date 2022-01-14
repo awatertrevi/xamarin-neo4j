@@ -12,13 +12,13 @@ using Xamarin.Neo4j.ViewModels;
 namespace Xamarin.Neo4j.Pages
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class VisualizationPage : ContentPage
+    public partial class TablePage : ContentPage
     {
-        public VisualizationPage(QueryResult queryResult)
+        public TablePage(QueryResult queryResult)
         {
             InitializeComponent();
 
-            BindingContext = new VisualizationViewModel(Navigation, queryResult);
+            BindingContext = new TableViewModel(Navigation, queryResult);
         }
     }
 }

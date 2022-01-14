@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ResourceDictionary xmlns="http://xamarin.com/schemas/2014/forms"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                    x:Class="Xamarin.Neo4j.Themes.DarkTheme">
+    <ResourceDictionary.MergedDictionaries>
+        <ResourceDictionary Source="Fonts.xaml" />
+    </ResourceDictionary.MergedDictionaries>
+
+    <Color x:Key="PageBackground">#545863</Color>
+    <Color x:Key="SecondaryTextColor">#a6a7b2</Color>
+    <Color x:Key="Accent">#31333b</Color>
+    <Color x:Key="QueryTextBackground">Black</Color>
+    <Color x:Key="QueryTextBorder">#686868</Color>
+    <Color x:Key="QueryActionBar">#686868</Color>
+    <Color x:Key="Extreme">Black</Color>
+
+    <Style TargetType="ContentPage" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="{StaticResource PageBackground}" />
+    </Style>
+
+    <Style TargetType="ListView">
+        <Setter Property="BackgroundColor" Value="Transparent" />
+        <Setter Property="SeparatorColor" Value="LightGray" />
+    </Style>
+
+    <Style TargetType="NavigationPage">
+        <Setter Property="BarBackgroundColor" Value="{StaticResource Accent}"/>
+        <Setter Property="BarTextColor" Value="White" />
+    </Style>
+
+    <Style TargetType="TabbedPage" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="White"/>
+        <Setter Property="BarTextColor" Value="Black"/>
+        <Setter Property="SelectedTabColor" Value="White"/>
+    </Style>
+
+    <Style TargetType="Editor" ApplyToDerivedTypes="True">
+        <Setter Property="BackgroundColor" Value="White"/>
+        <Setter Property="TextColor" Value="Black"/>
+    </Style>
+</ResourceDictionary>

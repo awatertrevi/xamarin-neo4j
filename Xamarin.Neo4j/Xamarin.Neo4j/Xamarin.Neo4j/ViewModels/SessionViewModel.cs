@@ -16,10 +16,12 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Acr.UserDialogs;
 using Xamarin.Forms;
+using Xamarin.Forms.Internals;
 using Xamarin.Neo4j.Annotations;
 using Xamarin.Neo4j.Models;
 using Xamarin.Neo4j.Pages;
 using Xamarin.Neo4j.Services;
+using Xamarin.Neo4j.Utilities;
 
 namespace Xamarin.Neo4j.ViewModels
 {
@@ -28,6 +30,8 @@ namespace Xamarin.Neo4j.ViewModels
         public event PropertyChangedEventHandler PropertyChanged;
 
         private readonly Neo4jService _neo4jService;
+
+        private readonly IScreenSizeService _screenSizeService;
 
         private Database _currentDatabase;
 
@@ -39,28 +43,34 @@ namespace Xamarin.Neo4j.ViewModels
 
         private string _query;
 
-        public SessionViewModel(INavigation navigation, Neo4jConnectionString connectionString) : base(navigation)
+        public SessionViewModel(INavigation navigation, Neo4jConnectionString connectionString, string initialQuery) : base(navigation)
         {
             _connectionString = connectionString;
 
             _neo4jService = DependencyService.Resolve<Neo4jService>();
+            _screenSizeService = DependencyService.Resolve<IScreenSizeService>();
 
+            Query = initialQuery;
             QueryResults = new ObservableCollection<QueryResult>();
 
+            Commands.Add("ExecuteQuery", new Command(async () =>
+            {
+                _connectionString.Database = CurrentDatabase.Name;
+
+                var result = await _neo4jService.ExecuteQuery(Query, _connectionString);
+
+                if (result.Success)
+                {
+                    QueryResults.Insert(0, result);
+
+                    MessagingCenter.Send(this, "ResetScroll");
+                }
+
+                else
+                    await UserDialogs.Instance.AlertAsync(result.ErrorMessage);
+            }));
+
             InitializeConnection(connectionString);
-        }
-
-        public async void ExecuteQuery()
-        {
-            _connectionString.Database = CurrentDatabase.Name;
-
-            var result = await _neo4jService.ExecuteQuery(Query, _connectionString);
-
-            if (result.Success)
-                QueryResults.Add(result);
-
-            else
-                UserDialogs.Instance.Alert(result.ErrorMessage);
         }
 
         private async void InitializeConnection(Neo4jConnectionString connectionString)
@@ -74,6 +84,13 @@ namespace Xamarin.Neo4j.ViewModels
 
             if (CurrentDatabase == null)
                 CurrentDatabase = AvailableDatabases.Single(ad => ad.Default);
+        }
+
+        public void DeleteQueryResult(QueryResult queryResult)
+        {
+            var index = QueryResults.IndexOf(qr => qr.Id == queryResult.Id);
+
+            QueryResults.RemoveAt(index);
         }
 
         [NotifyPropertyChangedInvocator]

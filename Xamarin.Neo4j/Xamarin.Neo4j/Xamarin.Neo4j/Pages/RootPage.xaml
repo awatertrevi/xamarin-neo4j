@@ -7,5 +7,6 @@
     <TabbedPage.Children>
         <pages:ConnectionsPage />
         <pages:QueriesPage />
+        <pages:SettingsPage />
     </TabbedPage.Children>
 </TabbedPage>

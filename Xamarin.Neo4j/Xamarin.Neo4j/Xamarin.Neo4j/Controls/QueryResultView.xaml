@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentView xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:fonts="clr-namespace:Xamarin.Neo4j.Fonts;assembly=Xamarin.Neo4j"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             Margin="0, 0, 0, 25"
+             x:Class="Xamarin.Neo4j.Controls.QueryResultView">
+    <StackLayout Orientation="Vertical" Spacing="0">
+        <pancakeView:PancakeView>
+            <pancakeView:PancakeView.Border>
+                <pancakeView:Border Thickness="4" Color="{StaticResource QueryTextBorder}" />
+            </pancakeView:PancakeView.Border>
+            <Label Text="{Binding Query}" Padding="8" HorizontalOptions="FillAndExpand" BackgroundColor="{StaticResource Extreme}" />
+        </pancakeView:PancakeView>
+
+        <WebView x:Name="graphView" HorizontalOptions="FillAndExpand" IsVisible="{Binding CanDisplayGraph}" HeightRequest="200" />
+
+        <Grid BackgroundColor="{StaticResource QueryActionBar}" Padding="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+
+            <Button Grid.Column="0" Clicked="SaveQuery" Text="{x:Static fonts:FontAwesomeSolid.Star}" BackgroundColor="Transparent" TextColor="White" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="20" />
+            <Button Grid.Column="1" Clicked="OpenNeovis" Text="{x:Static fonts:FontAwesomeSolid.Expand}" BackgroundColor="Transparent" IsEnabled="{Binding CanDisplayGraph}" TextColor="White" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="20 "/>
+            <Button Grid.Column="2" Clicked="OpenTableView" Text="{x:Static fonts:FontAwesomeSolid.List}" BackgroundColor="Transparent" TextColor="White" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="20 "/>
+            <Button Grid.Column="3" Clicked="CloseResultView" Text="{x:Static fonts:FontAwesomeSolid.Times}" BackgroundColor="Transparent" TextColor="White" FontFamily="{StaticResource FontAwesomeSolid}" FontSize="20 "/>
+        </Grid>
+    </StackLayout>
+</ContentView>

@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonts="clr-namespace:Xamarin.Neo4j.Fonts;assembly=Xamarin.Neo4j"
              xmlns:controls="clr-namespace:Xamarin.Neo4j.Controls;assembly=Xamarin.Neo4j"
+             xmlns:pancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              x:Class="Xamarin.Neo4j.Pages.SessionPage">
     <NavigationPage.TitleView>
         <StackLayout Spacing="0">
@@ -24,17 +25,35 @@
         </StackLayout>
     </NavigationPage.TitleView>
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding Commands[ExecuteQuery]}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource
+                    FontFamily="{StaticResource FontAwesomeSolid}"
+                    Glyph="{x:Static fonts:FontAwesomeSolid.Play}" Size="20" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <StackLayout>
-            <controls:QueryBuilder ExecuteQuery="OnExecuteQuery" Query="{Binding Query}" />
+            <pancakeView:PancakeView BackgroundColor="White" CornerRadius="2" Padding="4" Margin="16">
+                <pancakeView:PancakeView CornerRadius="2">
+                    <pancakeView:PancakeView.Border>
+                        <pancakeView:Border Thickness="2" Color="#d8e5f1" />
+                    </pancakeView:PancakeView.Border>
 
-            <ListView ItemsSource="{Binding QueryResults}">
-                <ListView.ItemTemplate>
+                    <controls:QueryEditor Text="{Binding Query}" MaxHeight="200" HorizontalOptions="FillAndExpand" AutoSize="TextChanges"  />
+                </pancakeView:PancakeView>
+            </pancakeView:PancakeView>
+
+            <CollectionView x:Name="resultsCollection" ItemsSource="{Binding QueryResults}">
+                <CollectionView.ItemTemplate>
                     <DataTemplate>
-                        <controls:QueryResultCell />
+                        <controls:QueryResultView CloseRequested="CloseResultView" />
                     </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+                </CollectionView.ItemTemplate>
+            </CollectionView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

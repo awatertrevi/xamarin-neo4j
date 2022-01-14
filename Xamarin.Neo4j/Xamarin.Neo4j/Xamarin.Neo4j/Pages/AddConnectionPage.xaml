@@ -32,17 +32,9 @@
                    <Entry Text="{Binding Password}" IsPassword="True" />
                </StackLayout>
 
-               <Grid>
-                   <Grid.ColumnDefinitions>
-                       <ColumnDefinition Width="1*" />
-                       <ColumnDefinition Width="1*" />
-                       <ColumnDefinition Width="1*" />
-                   </Grid.ColumnDefinitions>
-
-                   <Button Grid.Column="0" Text="Connect" Command="{Binding Commands[Connect]}" />
-                   <Button Grid.Column="1" Text="Test" Command="{Binding Commands[Test]}" />
-                   <Button Grid.Column="2" Text="Save" Command="{Binding Commands[Save]}" />
-               </Grid>
+               <Button Text="Connect" BackgroundColor="#2DB4A8" TextColor="White" Command="{Binding Commands[Connect]}" />
+               <Button Text="Test" BackgroundColor="Orange" TextColor="White" Command="{Binding Commands[Test]}" />
+               <Button Text="Save" BackgroundColor="#89972E" TextColor="White" Command="{Binding Commands[Save]}" />
            </StackLayout>
        </ScrollView>
     </ContentPage.Content>

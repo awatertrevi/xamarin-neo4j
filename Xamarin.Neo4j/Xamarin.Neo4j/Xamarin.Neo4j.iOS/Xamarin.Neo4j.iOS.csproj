@@ -94,8 +94,10 @@
         <MtouchLink>SdkOnly</MtouchLink>
     </PropertyGroup>
     <ItemGroup>
+        <Compile Include="CustomRenderers\QueryEditorRenderer.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
+        <Compile Include="Services\ScreenSizeService.cs" />
         <None Include="Entitlements.plist" />
         <None Include="Info.plist" />
         <Compile Include="Properties\AssemblyInfo.cs" />
@@ -119,7 +121,7 @@
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-76x76@2x.png" />
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-83.5@2x.png" />
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Icon-marketing-1024x1024.png" />
-        <InterfaceDefinition Include="Resources\LaunchScreen.storyboard" />
+        <InterfaceDefinition Include="LaunchScreen.storyboard" />
         <ImageAsset Include="Assets.xcassets\AppIcon.appiconset\Contents.json">
             <Visible>false</Visible>
         </ImageAsset>
@@ -143,6 +145,8 @@
       <BundleResource Include="Resources\iconize-fontawesome-brands.ttf" />
       <BundleResource Include="Resources\iconize-fontawesome-regular.ttf" />
       <BundleResource Include="Resources\iconize-fontawesome-solid.ttf" />
+      <BundleResource Include="Resources\logo.png" />
+      <BundleResource Include="Resources\resoftware.png" />
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

@@ -2,6 +2,7 @@
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Neo4j.Pages;
+using Xamarin.Neo4j.Themes;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 
@@ -13,8 +14,23 @@ namespace Xamarin.Neo4j
         {
             InitializeComponent();
 
+            SetTheme(Current.RequestedTheme);
+
             MainPage = new NavigationPage(new RootPage());
         }
+
+
+        private void SetTheme(OSAppTheme theme)
+        {
+            Resources = theme switch
+            {
+                OSAppTheme.Dark => new DarkTheme(),
+                OSAppTheme.Light => new LightTheme(),
+
+                _ => new LightTheme()
+            };
+        }
+
 
         protected override void OnStart()
         {

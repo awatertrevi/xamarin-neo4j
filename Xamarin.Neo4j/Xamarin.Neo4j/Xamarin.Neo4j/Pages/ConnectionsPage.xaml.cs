@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Xamarin.Neo4j.Managers;
 using Xamarin.Neo4j.Models;
 using Xamarin.Neo4j.ViewModels;
 
@@ -30,11 +31,9 @@ namespace Xamarin.Neo4j.Pages
             base.OnAppearing();
         }
 
-        private async void StartSession(object sender, ItemTappedEventArgs e)
+        private void SetActive(object sender, ItemTappedEventArgs e)
         {
-            var connectionString = (Neo4jConnectionString)e.Item;
-
-            await Navigation.PushAsync(new SessionPage(connectionString));
+            ViewModel.SetActiveConnectionString((Neo4jConnectionString)e.Item);
         }
     }
 }

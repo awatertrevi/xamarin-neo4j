@@ -4,6 +4,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:fonts="clr-namespace:Xamarin.Neo4j.Fonts;assembly=Xamarin.Neo4j"
              Title="Queries"
+             x:Name="queriesPage"
              x:Class="Xamarin.Neo4j.Pages.QueriesPage">
     <ContentPage.IconImageSource>
         <FontImageSource
@@ -13,10 +14,16 @@
     </ContentPage.IconImageSource>
 
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Hello, world!"
-                   VerticalOptions="CenterAndExpand"
-                   HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ListView ItemsSource="{Binding Queries}" ItemTapped="StartSessionWithQuery">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <TextCell Text="{Binding Name}" Detail="{Binding QueryText}">
+                        <TextCell.ContextActions>
+                            <MenuItem Text="Delete" Command="{Binding BindingContext.Commands[DeleteQuery], Source={x:Reference queriesPage} }" CommandParameter="{Binding .}" IsDestructive="true" />
+                        </TextCell.ContextActions>
+                    </TextCell>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+        </ListView>
     </ContentPage.Content>
 </ContentPage>
