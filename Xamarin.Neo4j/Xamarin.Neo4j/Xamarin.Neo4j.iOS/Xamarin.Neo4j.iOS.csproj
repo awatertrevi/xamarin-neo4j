@@ -97,7 +97,9 @@
         <Compile Include="CustomRenderers\QueryEditorRenderer.cs" />
         <Compile Include="Main.cs" />
         <Compile Include="AppDelegate.cs" />
+        <Compile Include="Security\NativeTrustManager.cs" />
         <Compile Include="Services\ScreenSizeService.cs" />
+        <Compile Include="Services\TrustManagerService.cs" />
         <None Include="Entitlements.plist" />
         <None Include="Info.plist" />
         <Compile Include="Properties\AssemblyInfo.cs" />

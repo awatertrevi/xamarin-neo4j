@@ -13,6 +13,7 @@ using System.Runtime.CompilerServices;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Annotations;
+using Xamarin.Neo4j.Pages;
 
 namespace Xamarin.Neo4j.ViewModels
 {
@@ -25,6 +26,11 @@ namespace Xamarin.Neo4j.ViewModels
             Commands.Add("OpenReSoftwareSite", new Command(async () =>
             {
                 await Launcher.OpenAsync(new Uri("https://resoftware.nl/"));
+            }));
+
+            Commands.Add("OpenLicensesPage", new Command(async () =>
+            {
+               await Navigation.PushAsync(new LicensesPage());
             }));
         }
 

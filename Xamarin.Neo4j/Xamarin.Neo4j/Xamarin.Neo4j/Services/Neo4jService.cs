@@ -16,26 +16,37 @@ using Neo4jClient.Cypher;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Models;
 using Xamarin.Neo4j.Services;
+
 [assembly: Dependency(typeof(Neo4jService))]
+
 namespace Xamarin.Neo4j.Services
 {
     public class Neo4jService
     {
+        private readonly TrustManager _nativeTrustManager;
+
+        public Neo4jService()
+        {
+            var trustManagerService = DependencyService.Get<ITrustManagerService>();
+
+            _nativeTrustManager = trustManagerService.GetNativeTrustManager();
+        }
+
         private BoltGraphClient GraphClient { get; set; }
 
         public async Task<bool> EstablishConnection(Neo4jConnectionString connectionString)
         {
             try
             {
-                var boltUri = $"bolt://{connectionString.Host}:{connectionString.Port}";
+                var (url, isEncrypted, ignoreTrust) = connectionString.ParseHost();
 
-                var driver = GraphDatabase.Driver(boltUri,
-                    AuthTokens.Basic(connectionString.Username, connectionString.Password),
-                    builder =>
+                var driver = GraphDatabase.Driver(url,
+                    AuthTokens.Basic(connectionString.Username, connectionString.Password), (config) =>
                     {
-                        builder.WithEncryptionLevel(connectionString.Encrypted
-                            ? EncryptionLevel.Encrypted
-                            : EncryptionLevel.None);
+                        config.WithEncryptionLevel(isEncrypted ? EncryptionLevel.Encrypted : EncryptionLevel.None);
+
+                        if (!ignoreTrust && Device.RuntimePlatform == Device.iOS)
+                            config.WithTrustManager(_nativeTrustManager);
                     });
 
                 GraphClient = new BoltGraphClient(driver);
@@ -102,7 +113,7 @@ namespace Xamarin.Neo4j.Services
                         if (results.ContainsKey(key) == false)
                             results.Add(key, new List<object>());
 
-                    foreach (var record in  cursor.Current.Values)
+                    foreach (var record in cursor.Current.Values)
                     {
                         var value = record.Value;
 

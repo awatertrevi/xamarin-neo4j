@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:controls="clr-namespace:Xamarin.Neo4j.Controls"
+             Title="Software Licenses"
+             x:Class="Xamarin.Neo4j.Pages.LicensesPage">
+    <ContentPage.Content>
+        <ListView SeparatorVisibility="None" SelectionMode="None" HasUnevenRows="True" ItemsSource="{Binding Licenses}">
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <controls:LicenseCell />
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <ContentView Padding="0, 15, 0, 0" />
+            </ListView.Footer>
+        </ListView>
+    </ContentPage.Content>
+</ContentPage>

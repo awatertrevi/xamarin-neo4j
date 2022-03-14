@@ -52,14 +52,16 @@ namespace Xamarin.Neo4j.Controls
             using (var stream = assembly.GetManifestResourceStream(resourceName))
             using (var reader = new StreamReader(stream))
             {
+                var (url, isEncrypted, ignoreTrust) = QueryResult.ConnectionString.ParseHost();
+
                 var result = reader.ReadToEnd();
 
-                result = result.Replace("{{host}}", QueryResult.ConnectionString.Host);
-                result = result.Replace("{{port}}", QueryResult.ConnectionString.Port.ToString());
+                result = result.Replace("{{host}}", url);
                 result = result.Replace("{{database}}", QueryResult.ConnectionString.Database);
                 result = result.Replace("{{username}}", QueryResult.ConnectionString.Username);
                 result = result.Replace("{{password}}", QueryResult.ConnectionString.Password);
-                result = result.Replace("{{encryption}}", QueryResult.ConnectionString.Encrypted ? "ENCRYPTION_ON" : "ENCRYPTION_OFF");
+                result = result.Replace("{{encryption}}", isEncrypted ? "ENCRYPTION_ON" : "ENCRYPTION_OFF");
+                result = result.Replace("{{trust}}", ignoreTrust ? "TRUST_ALL_CERTIFICATES" : "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES");
                 result = result.Replace("{{query}}", QueryResult.Query);
                 result = result.Replace("{{backgroundColor}}", App.Current.RequestedTheme == OSAppTheme.Dark ? "#292C31" : "#FFFFFF");
 

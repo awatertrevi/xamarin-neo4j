@@ -30,11 +30,12 @@
             function draw() {
                 const config = {
                     container_id: "viz",
-                    server_url: `bolt://{{host}}:{{port}}`,
+                    server_url: `{{host}}`,
                     server_user: `{{username}}`,
                     server_database: `{{database}}`,
                     server_password: `{{password}}`,
                     encrypted: `{{encryption}}`,
+                    trust: `{{trust}}`,
                     initial_cypher: `{{query}}`
                 };
 

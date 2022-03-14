@@ -13,17 +13,23 @@
     </ContentPage.IconImageSource>
 
     <ContentPage.Content>
-        <ScrollView>
-            <StackLayout Spacing="15" Padding="25">
-                <StackLayout Spacing="15" VerticalOptions="EndAndExpand">
-                    <Label Text="A product of" HorizontalOptions="Center" FontAttributes="Italic" FontSize="12" TextColor="{StaticResource SecondaryTextColor}" />
-                    <Image Source="resoftware.png" HorizontalOptions="Center" WidthRequest="100">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding Commands[OpenReSoftwareSite]}" />
-                        </Image.GestureRecognizers>
-                    </Image>
-                </StackLayout>
+        <StackLayout VerticalOptions="FillAndExpand">
+            <TableView VerticalOptions="StartAndExpand" Intent="Settings" Background="Transparent">
+                <TableRoot>
+                    <TableSection>
+                        <TextCell Text="Software Licenses" Command="{Binding Commands[OpenLicensesPage]}" />
+                    </TableSection>
+                </TableRoot>
+            </TableView>
+
+            <StackLayout Spacing="15" Margin="25" VerticalOptions="EndAndExpand">
+                <Label Text="A product of" HorizontalOptions="Center" FontAttributes="Italic" FontSize="12" TextColor="{StaticResource SecondaryTextColor}" />
+                <Image Source="resoftware.png" HorizontalOptions="Center" WidthRequest="100">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Commands[OpenReSoftwareSite]}" />
+                    </Image.GestureRecognizers>
+                </Image>
             </StackLayout>
-        </ScrollView>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>

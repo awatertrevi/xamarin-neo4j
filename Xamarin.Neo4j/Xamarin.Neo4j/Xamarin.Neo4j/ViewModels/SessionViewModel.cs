@@ -55,6 +55,9 @@ namespace Xamarin.Neo4j.ViewModels
 
             Commands.Add("ExecuteQuery", new Command(async () =>
             {
+                if (CanExecuteQuery == false)
+                    return;
+
                 _connectionString.Database = CurrentDatabase.Name;
 
                 var result = await _neo4jService.ExecuteQuery(Query, _connectionString);
@@ -148,6 +151,8 @@ namespace Xamarin.Neo4j.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public bool CanExecuteQuery => !string.IsNullOrWhiteSpace(Query) && CurrentDatabase != null;
 
         #endregion
     }

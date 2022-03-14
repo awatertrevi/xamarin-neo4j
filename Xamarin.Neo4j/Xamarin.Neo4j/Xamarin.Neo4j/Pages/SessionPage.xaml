@@ -26,7 +26,7 @@
     </NavigationPage.TitleView>
 
     <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding Commands[ExecuteQuery]}">
+        <ToolbarItem Command="{Binding Commands[ExecuteQuery]}" IsEnabled="{Binding CanExecuteQuery}">
             <ToolbarItem.IconImageSource>
                 <FontImageSource
                     FontFamily="{StaticResource FontAwesomeSolid}"

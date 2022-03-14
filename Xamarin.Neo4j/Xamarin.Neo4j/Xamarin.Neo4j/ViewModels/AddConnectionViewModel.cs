@@ -25,11 +25,7 @@ namespace Xamarin.Neo4j.ViewModels
 {
     public class AddConnectionViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private bool _encrypted;
-
         private string _host, _username, _password;
-
-        private int _port;
 
         private readonly Neo4jService _neo4jService;
 
@@ -83,7 +79,6 @@ namespace Xamarin.Neo4j.ViewModels
         private void InitializeDefaultValues()
         {
             Username = "neo4j";
-            Port = 7687;
         }
 
         [NotifyPropertyChangedInvocator]
@@ -98,26 +93,12 @@ namespace Xamarin.Neo4j.ViewModels
             {
                 Id = Guid.NewGuid(),
                 Host = Host,
-                Port = Port,
                 Username = Username,
-                Password = Password,
-                Encrypted = Encrypted
+                Password = Password
             };
         }
 
         #region Bindable Properties
-
-        public bool Encrypted
-        {
-            get => _encrypted;
-
-            set
-            {
-                _encrypted = value;
-
-                OnPropertyChanged(nameof(Encrypted));
-            }
-        }
 
         public string Host
         {
@@ -128,18 +109,6 @@ namespace Xamarin.Neo4j.ViewModels
                 _host = value;
 
                 OnPropertyChanged(nameof(Host));
-            }
-        }
-
-        public int Port
-        {
-            get => _port;
-
-            set
-            {
-                _port = value;
-
-                OnPropertyChanged(nameof(Port));
             }
         }
 
