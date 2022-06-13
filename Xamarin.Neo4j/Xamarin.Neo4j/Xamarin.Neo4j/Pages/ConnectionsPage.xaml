@@ -45,7 +45,8 @@
                 <DataTemplate>
                     <controls:ConnectionCell IsActive="{Binding ., Converter={StaticResource isActiveConnection}}">
                         <controls:ConnectionCell.ContextActions>
-                            <MenuItem Text="Delete" Command="{Binding BindingContext.Commands[DeleteConnectionString], Source={x:Reference connectionsPage} }" CommandParameter="{Binding .}" IsDestructive="true" />
+                            <MenuItem Text="Edit" Command="{Binding BindingContext.Commands[EditConnectionString], Source={x:Reference connectionsPage}}" CommandParameter="{Binding .}" />
+                            <MenuItem Text="Delete" Command="{Binding BindingContext.Commands[DeleteConnectionString], Source={x:Reference connectionsPage}}" CommandParameter="{Binding .}" IsDestructive="true" />
                         </controls:ConnectionCell.ContextActions>
                     </controls:ConnectionCell>
                 </DataTemplate>

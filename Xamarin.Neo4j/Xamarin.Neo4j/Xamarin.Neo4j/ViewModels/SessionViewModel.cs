@@ -7,6 +7,7 @@
 // © Xamarin.Neo4j
 //
 
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -78,8 +79,15 @@ namespace Xamarin.Neo4j.ViewModels
 
         private async void InitializeConnection(Neo4jConnectionString connectionString)
         {
-            await _neo4jService.EstablishConnection(connectionString);
+            var (isConnected, message) = await _neo4jService.EstablishConnection(connectionString);
 
+            if (!isConnected)
+            {
+                await UserDialogs.Instance.AlertAsync(message);
+                
+                return;
+            }
+            
             AvailableDatabases = await _neo4jService.LoadDatabases();
 
             if (!string.IsNullOrWhiteSpace(connectionString.Database))

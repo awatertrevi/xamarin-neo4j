@@ -59,5 +59,22 @@ namespace Xamarin.Neo4j.Managers
 
             await SaveConnectionStrings(connectionStrings);
         }
+
+        public static async Task UpdateConnectionString(Guid id, Neo4jConnectionString connectionString)
+        {
+            var connectionStrings = await GetConnectionStrings();
+            
+            var connectionStringToUpdate = connectionStrings.FirstOrDefault(cs => cs.Id == id);
+            
+            if (connectionStringToUpdate == null)
+                return;
+            
+            connectionStringToUpdate.Scheme = connectionString.Scheme;
+            connectionStringToUpdate.Host = connectionString.Host;
+            connectionStringToUpdate.Username = connectionString.Username;
+            connectionStringToUpdate.Password = connectionString.Password;
+
+            await SaveConnectionStrings(connectionStrings);
+        }
     }
 }

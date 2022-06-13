@@ -32,6 +32,14 @@ namespace Xamarin.Neo4j.ViewModels
                 Navigation.PushAsync(new AddConnectionPage());
             }));
 
+            Commands.Add("EditConnectionString", new Command(async (o) =>
+            {
+                if (!(o is Neo4jConnectionString neo4jConnectionString))
+                    return;
+
+                await Navigation.PushAsync(new AddConnectionPage(neo4jConnectionString));
+            }));
+            
             Commands.Add("DeleteConnectionString", new Command(async (o) =>
             {
                 if (!(o is Neo4jConnectionString neo4jConnectionString))

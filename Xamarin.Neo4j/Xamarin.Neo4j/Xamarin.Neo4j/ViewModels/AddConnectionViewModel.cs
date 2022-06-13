@@ -25,15 +25,21 @@ namespace Xamarin.Neo4j.ViewModels
 {
     public class AddConnectionViewModel : ViewModelBase, INotifyPropertyChanged
     {
-        private string _host, _username, _password;
+        private Guid? _id;
+        
+        private string _scheme, _host, _username, _password;
 
         private readonly Neo4jService _neo4jService;
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public AddConnectionViewModel(INavigation navigation) : base(navigation)
+        public AddConnectionViewModel(INavigation navigation, Neo4jConnectionString neo4JConnectionString = null) : base(navigation)
         {
-            InitializeDefaultValues();
+            if (neo4JConnectionString == null)
+                InitializeDefaultValues();
+            
+            else 
+                InitializeValues(neo4JConnectionString);
 
             _neo4jService = DependencyService.Resolve<Neo4jService>();
 
@@ -41,23 +47,29 @@ namespace Xamarin.Neo4j.ViewModels
             {
                 var connectionString = BuildConnectionString();
 
-                var couldConnect = await _neo4jService.EstablishConnection(connectionString);
+                var (_, message) = await _neo4jService.EstablishConnection(connectionString);
 
-                await UserDialogs.Instance.AlertAsync(couldConnect ? "Connection successful." : "Connection failed.");
+                await UserDialogs.Instance.AlertAsync(message);
             }));
 
             Commands.Add("Save", new Command(async () =>
             {
                 var connectionString = BuildConnectionString();
 
-                var namePromptResult = await UserDialogs.Instance.PromptAsync("How do you want to name this connection?", "Save Connection", "Save", "Cancel");
+                if (_id.HasValue)
+                    await ConnectionStringManager.UpdateConnectionString(_id.Value, connectionString);
+                
+                else
+                {
+                    var namePromptResult = await UserDialogs.Instance.PromptAsync("How do you want to name this connection?", "Save Connection", "Save", "Cancel");
 
-                if (!namePromptResult.Ok || string.IsNullOrWhiteSpace(namePromptResult.Value))
-                    return;
+                    if (!namePromptResult.Ok || string.IsNullOrWhiteSpace(namePromptResult.Value))
+                        return;
 
-                connectionString.Name = namePromptResult.Value;
-
-                await ConnectionStringManager.AddConnectionString(connectionString);
+                    connectionString.Name = namePromptResult.Value;
+                    
+                    await ConnectionStringManager.AddConnectionString(connectionString);
+                } 
 
                 await Navigation.PopAsync();
             }));
@@ -66,19 +78,30 @@ namespace Xamarin.Neo4j.ViewModels
             {
                 var connectionString = BuildConnectionString();
 
-                var couldConnect = await _neo4jService.EstablishConnection(connectionString);
+                var (couldConnect, message) = await _neo4jService.EstablishConnection(connectionString);
 
                 if (couldConnect)
                     await Navigation.PushAsync(new SessionPage(connectionString));
 
                 else
-                    await UserDialogs.Instance.AlertAsync( "Connection failed.");
+                    await UserDialogs.Instance.AlertAsync(message);
             }));
+        }
+
+        private void InitializeValues(Neo4jConnectionString neo4JConnectionString)
+        {
+            _id = neo4JConnectionString.Id;
+            
+            Scheme = neo4JConnectionString.Scheme;
+            Host = neo4JConnectionString.Host;
+            Username = neo4JConnectionString.Username;
+            Password = neo4JConnectionString.Password;
         }
 
         private void InitializeDefaultValues()
         {
             Username = "neo4j";
+            Scheme = "neo4j://";
         }
 
         [NotifyPropertyChangedInvocator]
@@ -92,6 +115,7 @@ namespace Xamarin.Neo4j.ViewModels
             return new Neo4jConnectionString
             {
                 Id = Guid.NewGuid(),
+                Scheme = Scheme,
                 Host = Host,
                 Username = Username,
                 Password = Password
@@ -100,6 +124,18 @@ namespace Xamarin.Neo4j.ViewModels
 
         #region Bindable Properties
 
+        public string Scheme
+        {
+            get => _scheme;
+
+            set
+            {
+                _scheme = value;
+
+                OnPropertyChanged(nameof(Scheme));
+            }
+        }
+        
         public string Host
         {
             get => _host;

@@ -34,7 +34,7 @@ namespace Xamarin.Neo4j.Services
 
         private BoltGraphClient GraphClient { get; set; }
 
-        public async Task<bool> EstablishConnection(Neo4jConnectionString connectionString)
+        public async Task<Tuple<bool, string>> EstablishConnection(Neo4jConnectionString connectionString)
         {
             try
             {
@@ -54,22 +54,32 @@ namespace Xamarin.Neo4j.Services
                 await GraphClient.ConnectAsync();
             }
 
-            catch (ServiceUnavailableException)
+            catch (ServiceUnavailableException e)
             {
-                return false;
+                return new Tuple<bool, string>(false, e.Message);
             }
 
-            catch (AuthenticationException)
+            catch (AuthenticationException e)
             {
-                return false;
+                return new Tuple<bool, string>(false, e.Message);
             }
 
-            catch (UriFormatException)
+            catch (SecurityException e)
             {
-                return false;
+                return new Tuple<bool, string>(false, e.Message);
             }
 
-            return true;
+            catch (UriFormatException e)
+            {
+                return new Tuple<bool, string>(false, e.Message);
+            }
+
+            catch (NotSupportedException e)
+            {
+                return new Tuple<bool, string>(false, e.Message);
+            }
+
+            return new Tuple<bool, string>(true, "Connection was successful!");
         }
 
         public async Task<List<Database>> LoadDatabases()

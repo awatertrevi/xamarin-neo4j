@@ -8,6 +8,22 @@
        <ScrollView>
            <StackLayout Padding="24" Spacing="12">
                <StackLayout Spacing="4">
+                   <Label Text="Scheme:" FontAttributes="Bold" FontSize="Small"  />
+                   <Picker SelectedItem="{Binding Scheme}">
+                       <Picker.ItemsSource>
+                           <x:Array Type="{x:Type x:String}">
+                               <x:String>neo4j://</x:String>
+                               <x:String>neo4j+s://</x:String>
+                               <x:String>neo4j+ssc://</x:String>
+                               <x:String>bolt://</x:String>
+                               <x:String>bolt+s://</x:String>
+                               <x:String>bolt+ssc://</x:String>
+                           </x:Array>
+                       </Picker.ItemsSource>
+                   </Picker>
+               </StackLayout>
+               
+               <StackLayout Spacing="4">
                    <Label Text="Host:" FontAttributes="Bold" FontSize="Small"  />
                    <Entry Text="{Binding Host}" />
                </StackLayout>
