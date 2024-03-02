@@ -24,6 +24,5 @@
       <None Remove="Resources\licenses.json" />
       <EmbeddedResource Include="Resources\licenses.json" />
       <None Remove="Assets\Fonts\RobotoMono-Regular.ttf" />
-      <EmbeddedResource Include="Assets\Fonts\RobotoMono-Regular.ttf" />
     </ItemGroup>
 </Project>

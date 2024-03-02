@@ -43,7 +43,7 @@
                         <pancakeView:Border Thickness="2" Color="#d8e5f1" />
                     </pancakeView:PancakeView.Border>
 
-                    <controls:QueryEditor Text="{Binding Query}" ExecuteClicked="ExecuteQuery" MaxHeight="200" HorizontalOptions="FillAndExpand" AutoSize="TextChanges"  />
+                    <controls:QueryEditor Text="{Binding Query}" ExecuteClicked="ExecuteQuery" FontSize="14" MaxHeight="200" HorizontalOptions="FillAndExpand" AutoSize="TextChanges"  />
                 </pancakeView:PancakeView>
             </pancakeView:PancakeView>
 

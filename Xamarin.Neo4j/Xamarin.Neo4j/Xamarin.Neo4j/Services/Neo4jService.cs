@@ -153,7 +153,7 @@ namespace Xamarin.Neo4j.Services
                     Success = true,
                     CanDisplayGraph = canDisplayGraph,
                     Query = query,
-                    DisplayQuery = QueryHelper.TransformQuery(query),
+                    DisplayQuery = QueryHelper.ToDisplayQuery(query),
                     ConnectionString = connectionString,
                     Results = results
                 };

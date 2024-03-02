@@ -125,8 +125,8 @@ namespace Xamarin.Neo4j.iOS.CustomRenderers
             // Apply text color formatting for text inside double quotes.
             ApplyQuoteTextColorFormatting(text, attributedText, "\"(.*?)\"", Color.FromHex("#ae8b2d").ToUIColor());
 
-            attributedText.AddAttribute(UIStringAttributeKey.Font, UIFont.SystemFontOfSize((nfloat) Element.FontSize), new NSRange(0, attributedText.Length));
-            
+            attributedText.AddAttribute(UIStringAttributeKey.Font, UIFont.FromName("Roboto Mono", (nfloat) Element.FontSize), new NSRange(0, attributedText.Length));
+
             Control.AttributedText = attributedText;
         }
 
