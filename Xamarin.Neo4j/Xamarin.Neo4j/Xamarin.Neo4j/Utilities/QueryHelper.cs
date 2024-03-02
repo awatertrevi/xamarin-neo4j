@@ -1,12 +1,3 @@
-//
-// QueryHelper.cs
-//
-// Trevi Awater
-// 02-03-2024
-//
-// © Xamarin.Neo4j
-//
-
 using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
@@ -17,12 +8,10 @@ namespace Xamarin.Neo4j.Utilities
     {
         public static string ToDisplayQuery(string query)
         {
-            // Check if there is a return statement, if not return the original query
-            if (query.IndexOf("RETURN ", StringComparison.OrdinalIgnoreCase) <= 0) 
+            if (query.IndexOf("RETURN ", StringComparison.OrdinalIgnoreCase) < 0)
                 return query;
-    
-            // Adjusted pattern to match relationships with and without labels/types.
-            const string pattern = @"-\[(\w*:?(\w+)?)\]->";
+
+            const string pattern = @"(-\[(\w*:?(\w+)?)\]->)|(<-\[(\w*:?(\w+)?)\]-)";
             var matches = Regex.Matches(query, pattern);
 
             var relationships = new List<string>();
@@ -32,32 +21,58 @@ namespace Xamarin.Neo4j.Utilities
 
             foreach (Match match in matches)
             {
-                var newLabel = $"display_variable_{relationshipCounter++}"; // Generate a unique label for the relationship
-
-                // Determine the correct new pattern based on whether the original had a type/label
-                var oldPattern = match.Value;
-                var newPattern = !string.IsNullOrEmpty(match.Groups[1].Value) ?
-                    oldPattern.Replace("[:", $"[{newLabel}:").Replace("]->", "]->") : // For labeled/types
-                    oldPattern.Replace("[]", $"[{newLabel}]"); // For unlabeled
-
-                var idx = transformedQuery.IndexOf(oldPattern);
-
-                if (idx != -1)
+                if (string.IsNullOrEmpty(match.Groups[2].Value) || string.IsNullOrEmpty(match.Groups[2].Value.Split(':')[0]))
                 {
-                    transformedQuery = transformedQuery.Substring(0, idx) + newPattern + transformedQuery.Substring(idx + oldPattern.Length);
-                }
+                    var newLabel = $"display_variable_{relationshipCounter++}";
+                    var oldPattern = match.Value;
+                    var newPattern = "";
 
-                relationships.Add(newLabel);
+                    if (match.Groups[1].Success)
+                    {
+                        newPattern = $"-[{newLabel + match.Groups[2]}]->";
+                    }
+                    else if (match.Groups[5].Success)
+                    {
+                        newPattern = $"<-[{newLabel + match.Groups[5]}]-";
+                    }
+
+                    var idx = transformedQuery.IndexOf(oldPattern);
+
+                    if (idx != -1)
+                    {
+                        transformedQuery = transformedQuery.Substring(0, idx) + newPattern + transformedQuery.Substring(idx + oldPattern.Length);
+                    }
+
+                    relationships.Add(newLabel);
+                }
+                else if (match.Groups[2].Value.Contains(":"))
+                {
+                    var label = match.Groups[2].Value.Split(':')[0];
+                    if (!relationships.Contains(label))
+                    {
+                        relationships.Add(label);
+                    }
+                }
             }
 
-            // Construct the new RETURN clause with the added relationships.
             if (relationships.Count > 0)
             {
                 var returnIndex = transformedQuery.LastIndexOf("RETURN ", StringComparison.OrdinalIgnoreCase);
                 var returnClause = transformedQuery.Substring(returnIndex + "RETURN ".Length);
-                var newReturnClause = string.Join(", ", relationships) + ", " + returnClause;
-        
-                transformedQuery = transformedQuery.Substring(0, returnIndex) + "RETURN " + newReturnClause;
+
+                if (returnClause.Trim() != "*")
+                {
+                    var newReturnClause = returnClause;
+                    foreach (var rel in relationships)
+                    {
+                        if (!returnClause.Contains(rel))
+                        {
+                            newReturnClause = rel + ", " + newReturnClause;
+                        }
+                    }
+
+                    transformedQuery = transformedQuery.Substring(0, returnIndex) + "RETURN " + newReturnClause;
+                }
             }
 
             return transformedQuery;
