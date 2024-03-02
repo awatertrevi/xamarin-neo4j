@@ -22,6 +22,7 @@ using Xamarin.Neo4j.Annotations;
 using Xamarin.Neo4j.Models;
 using Xamarin.Neo4j.Pages;
 using Xamarin.Neo4j.Services;
+using Xamarin.Neo4j.Services.Interfaces;
 using Xamarin.Neo4j.Utilities;
 
 namespace Xamarin.Neo4j.ViewModels

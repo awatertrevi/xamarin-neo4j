@@ -16,6 +16,7 @@ using Neo4jClient.Cypher;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Models;
 using Xamarin.Neo4j.Services;
+using Xamarin.Neo4j.Services.Interfaces;
 using Xamarin.Neo4j.Utilities;
 
 [assembly: Dependency(typeof(Neo4jService))]

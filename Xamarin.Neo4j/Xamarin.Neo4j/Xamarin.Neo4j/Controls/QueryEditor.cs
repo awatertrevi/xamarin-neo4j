@@ -18,6 +18,11 @@ namespace Xamarin.Neo4j.Controls
 
         public event EventHandler ExecuteClicked;
 
+        public QueryEditor()
+        {
+            FontFamily = "RobotoMonoRegular";
+        }
+        
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
             var sizeRequest = base.OnMeasure(widthConstraint, heightConstraint);

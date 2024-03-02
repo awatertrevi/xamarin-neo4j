@@ -14,12 +14,17 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Annotations;
 using Xamarin.Neo4j.Pages;
+using Xamarin.Neo4j.Services.Interfaces;
 
 namespace Xamarin.Neo4j.ViewModels
 {
     public class SettingsViewModel : ViewModelBase, INotifyPropertyChanged
     {
+        private string _versionLabel { get; set; }
+        
         public event PropertyChangedEventHandler PropertyChanged;
+        
+        private IVersionService _versionService { get; set; }
 
         public SettingsViewModel(INavigation navigation) : base(navigation)
         {
@@ -32,6 +37,10 @@ namespace Xamarin.Neo4j.ViewModels
             {
                await Navigation.PushAsync(new LicensesPage());
             }));
+            
+            _versionService = DependencyService.Get<IVersionService>();
+            
+            VersionLabel = $"Version: {_versionService.GetVersion()} (Build: {_versionService.GetBuild()})";
         }
 
         [NotifyPropertyChangedInvocator]
@@ -39,5 +48,22 @@ namespace Xamarin.Neo4j.ViewModels
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
+        
+        #region Bindable Properties
+        
+        public string VersionLabel
+        {
+            get => _versionLabel;
+
+            set
+            {
+                _versionLabel = value;
+
+                OnPropertyChanged(nameof(VersionLabel));
+            }
+        }
+        
+        #endregion
+        
     }
 }

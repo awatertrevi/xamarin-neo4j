@@ -1,4 +1,4 @@
-namespace Xamarin.Neo4j.Services
+namespace Xamarin.Neo4j.Services.Interfaces
 {
     public interface IScreenSizeService
     {

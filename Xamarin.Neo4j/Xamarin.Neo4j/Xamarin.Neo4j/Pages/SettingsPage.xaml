@@ -17,6 +17,7 @@
             <TableView VerticalOptions="StartAndExpand" Intent="Settings" Background="Transparent">
                 <TableRoot>
                     <TableSection>
+                        <TextCell Text="{Binding VersionLabel}" />
                         <TextCell Text="Software Licenses" Command="{Binding Commands[OpenLicensesPage]}" />
                     </TableSection>
                 </TableRoot>
