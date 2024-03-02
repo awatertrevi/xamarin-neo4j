@@ -62,7 +62,7 @@ namespace Xamarin.Neo4j.Controls
                 result = result.Replace("{{password}}", QueryResult.ConnectionString.Password);
                 result = result.Replace("{{encryption}}", isEncrypted ? "ENCRYPTION_ON" : "ENCRYPTION_OFF");
                 result = result.Replace("{{trust}}", ignoreTrust ? "TRUST_ALL_CERTIFICATES" : "TRUST_SYSTEM_CA_SIGNED_CERTIFICATES");
-                result = result.Replace("{{query}}", QueryResult.Query);
+                result = result.Replace("{{query}}", QueryResult.DisplayQuery);
                 result = result.Replace("{{backgroundColor}}", App.Current.RequestedTheme == OSAppTheme.Dark ? "#292C31" : "#FFFFFF");
 
                 _neovisHtml = result;

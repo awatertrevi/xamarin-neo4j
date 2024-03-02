@@ -36,18 +36,18 @@
     </ContentPage.ToolbarItems>
 
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout VerticalOptions="FillAndExpand">
             <pancakeView:PancakeView BackgroundColor="White" CornerRadius="2" Padding="4" Margin="16">
                 <pancakeView:PancakeView CornerRadius="2">
                     <pancakeView:PancakeView.Border>
                         <pancakeView:Border Thickness="2" Color="#d8e5f1" />
                     </pancakeView:PancakeView.Border>
 
-                    <controls:QueryEditor Text="{Binding Query}" MaxHeight="200" HorizontalOptions="FillAndExpand" AutoSize="TextChanges"  />
+                    <controls:QueryEditor Text="{Binding Query}" ExecuteClicked="ExecuteQuery" MaxHeight="200" HorizontalOptions="FillAndExpand" AutoSize="TextChanges"  />
                 </pancakeView:PancakeView>
             </pancakeView:PancakeView>
 
-            <CollectionView x:Name="resultsCollection" ItemsSource="{Binding QueryResults}">
+            <CollectionView x:Name="resultsCollection" ItemsSource="{Binding QueryResults}" VerticalOptions="FillAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <controls:QueryResultView CloseRequested="CloseResultView" />

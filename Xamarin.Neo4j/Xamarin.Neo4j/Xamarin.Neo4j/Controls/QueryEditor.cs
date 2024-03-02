@@ -16,6 +16,8 @@ namespace Xamarin.Neo4j.Controls
     {
         public double MaxHeight { get; set; }
 
+        public event EventHandler ExecuteClicked;
+
         protected override SizeRequest OnMeasure(double widthConstraint, double heightConstraint)
         {
             var sizeRequest = base.OnMeasure(widthConstraint, heightConstraint);
@@ -26,6 +28,11 @@ namespace Xamarin.Neo4j.Controls
                 newHeight = MaxHeight;
 
             return new SizeRequest(new Size(sizeRequest.Request.Width, newHeight));
+        }
+        
+        public void RaiseExecuteClicked()
+        {
+            ExecuteClicked?.Invoke(this, EventArgs.Empty);
         }
     }
 }

@@ -25,6 +25,8 @@ namespace Xamarin.Neo4j.Models
         public string ErrorMessage { get; set; }
 
         public string Query { get; set; }
+        
+        public string DisplayQuery { get; set; }
 
         public Neo4jConnectionString ConnectionString { get; set; }
 

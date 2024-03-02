@@ -16,6 +16,7 @@ using Neo4jClient.Cypher;
 using Xamarin.Forms;
 using Xamarin.Neo4j.Models;
 using Xamarin.Neo4j.Services;
+using Xamarin.Neo4j.Utilities;
 
 [assembly: Dependency(typeof(Neo4jService))]
 
@@ -151,6 +152,7 @@ namespace Xamarin.Neo4j.Services
                     Success = true,
                     CanDisplayGraph = canDisplayGraph,
                     Query = query,
+                    DisplayQuery = QueryHelper.TransformQuery(query),
                     ConnectionString = connectionString,
                     Results = results
                 };

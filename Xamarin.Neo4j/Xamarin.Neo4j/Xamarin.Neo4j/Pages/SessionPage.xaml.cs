@@ -1,9 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.Neo4j.Models;
@@ -15,6 +10,8 @@ namespace Xamarin.Neo4j.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SessionPage : ContentPage
     {
+        private bool _canCompleteEntry = true;
+        
         private SessionViewModel ViewModel => (SessionViewModel) BindingContext;
 
         public SessionPage(Neo4jConnectionString connectionString, string initialQuery = null)
@@ -37,6 +34,11 @@ namespace Xamarin.Neo4j.Pages
         private void CloseResultView(object sender, GenericEventArgs<QueryResult> e)
         {
             ViewModel.DeleteQueryResult(e.Data);
+        }
+
+        private void ExecuteQuery(object sender, EventArgs e)
+        {
+            ViewModel.Commands["ExecuteQuery"].Execute(null);
         }
     }
 }
