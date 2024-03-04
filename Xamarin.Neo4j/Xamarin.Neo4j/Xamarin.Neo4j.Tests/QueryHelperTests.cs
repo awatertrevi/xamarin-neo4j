@@ -39,7 +39,7 @@ namespace Xamarin.Neo4j.Tests
         }
 
         [Test]
-        public void TestWithReturnAll()
+        public void TestWithLabeledAndAliasedReturnAll()
         {
             const string query = "MATCH (t:Tender)-[:LAST]->(z) RETURN *";
             const string expected = "MATCH (t:Tender)-[display_variable_1:LAST]->(z) RETURN *";
@@ -48,7 +48,29 @@ namespace Xamarin.Neo4j.Tests
 
             Assert.AreEqual(expected, actual);
         }
+        
+        [Test]
+        public void TestWithUnlabeledReturnAll()
+        {
+            const string query = "MATCH (t:Tender)-[]->(z) RETURN *";
+            const string expected = "MATCH (t:Tender)-[display_variable_1]->(z) RETURN *";
 
+            var actual = QueryHelper.ToDisplayQuery(query);
+
+            Assert.AreEqual(expected, actual);
+        }
+        
+        [Test]
+        public void TestWithLabeledAndAliasedReturnAllWithMultipleRelationships()
+        {
+            const string query = "MATCH (t:Tender)-[:LAST]->(z)-[:NEXT]->(x) RETURN *";
+            const string expected = "MATCH (t:Tender)-[display_variable_1:LAST]->(z)-[display_variable_2:NEXT]->(x) RETURN *";
+
+            var actual = QueryHelper.ToDisplayQuery(query);
+
+            Assert.AreEqual(expected, actual);
+        }
+        
         [Test]
         public void TestWithNoReturn()
         {
@@ -95,5 +117,7 @@ namespace Xamarin.Neo4j.Tests
 
             Assert.AreEqual(expected, actual);
         }
+        
+        
     }
 }

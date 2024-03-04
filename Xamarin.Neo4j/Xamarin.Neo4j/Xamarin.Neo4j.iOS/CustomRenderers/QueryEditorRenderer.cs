@@ -99,6 +99,8 @@ namespace Xamarin.Neo4j.iOS.CustomRenderers
                 toolbar.Items = keyButtons;
 
                 Control.InputAccessoryView = toolbar;
+                
+                HighlightWords(_keyWords);
             }
         }
 

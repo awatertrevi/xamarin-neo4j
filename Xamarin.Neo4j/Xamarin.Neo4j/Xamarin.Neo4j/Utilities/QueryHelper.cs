@@ -60,7 +60,7 @@ namespace Xamarin.Neo4j.Utilities
                 var returnIndex = transformedQuery.LastIndexOf("RETURN ", StringComparison.OrdinalIgnoreCase);
                 var returnClause = transformedQuery.Substring(returnIndex + "RETURN ".Length);
 
-                if (returnClause.Trim() != "*")
+                if (!returnClause.Trim().StartsWith("*"))
                 {
                     var newReturnClause = returnClause;
                     foreach (var rel in relationships)
