@@ -139,12 +139,6 @@
         <PackageReference Include="Xamarin.Forms" Version="5.0.0.2196" />
     </ItemGroup>
     <ItemGroup>
-        <ProjectReference Include="..\Xamarin.Neo4j\Xamarin.Neo4j.csproj">
-            <Project>{756232D0-DBB0-4AEB-B1CF-1F5CA12CAC85}</Project>
-            <Name>Xamarin.Neo4j</Name>
-        </ProjectReference>
-    </ItemGroup>
-    <ItemGroup>
       <BundleResource Include="Resources\iconize-fontawesome-brands.ttf" />
       <BundleResource Include="Resources\iconize-fontawesome-regular.ttf" />
       <BundleResource Include="Resources\iconize-fontawesome-solid.ttf" />
@@ -153,6 +147,12 @@
     </ItemGroup>
     <ItemGroup>
       <BundleResource Include="Resources\roboto-mono-regular.ttf" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Xamarin.Neo4j\Xamarin.Neo4j.csproj">
+        <Project>{756232d0-dbb0-4aeb-b1cf-1f5ca12cac85}</Project>
+        <Name>Xamarin.Neo4j</Name>
+      </ProjectReference>
     </ItemGroup>
     <Import Project="$(MSBuildExtensionsPath)\Xamarin\iOS\Xamarin.iOS.CSharp.targets" />
 </Project>

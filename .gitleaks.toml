@@ -1,0 +1,13 @@
+title = "Gitleaks Configuration"
+
+[[rules]]
+id = "generic-api-key"                # Add a unique ID for the rule
+description = "Generic API Key"
+regex = '''(?i)(api_key|apikey|auth_token|access_token|secret)[:=]["']?[a-z0-9]{32,}'''
+tags = ["apikey", "secret"]
+
+[allowlist]
+paths = [
+    ".env",          # Matches .env file in any directory
+    ".gitignore"     # Matches .gitignore file
+]
