@@ -1,8 +1,12 @@
 # PocketGraph - Neo4j Mobile Client
 
+[![Deploy GitHub Pages](https://github.com/kl0070/xamarin-neo4j/actions/workflows/deploy-pages.yml/badge.svg)](https://github.com/kl0070/xamarin-neo4j/actions/workflows/deploy-pages.yml)
+
 A powerful mobile Neo4j database client for iOS and iPad, built with Xamarin.Forms.
 
 [![Download on the App Store](https://tools.applemediaservices.com/api/badges/download-on-the-app-store/black/en-us?size=250x83&amp;releaseDate=1280278400)](https://apps.apple.com/nl/app/pocketgraph/id1604368926)
+
+🌐 **[Visit our website](https://kl0070.github.io/xamarin-neo4j/)** for more information and beautiful screenshots!
 
 ## Overview
 
